@@ -1,0 +1,17 @@
+version: '3.9'
+
+services:
+  mongo:
+    platform: linux/amd64
+    hostname: mongodb
+    image: bitnami/mongodb:5.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data/mongodb:/data/db
+    environment:
+      MONGODB_DATABASE: admin
+      MONGODB_ROOT_PASSWORD: R00tS3cur3P@ssword!23
+      MONGODB_USERNAME: user
+      MONGODB_PASSWORD: password
+      EXPERIMENTAL_DOCKER_DESKTOP_FORCE_QEMU: 1

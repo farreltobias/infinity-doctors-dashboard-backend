@@ -1,4 +1,4 @@
 import { Reflector } from '@nestjs/core'
-import type { Role } from '@prisma/client'
+import type { Permission } from '@prisma/client'
 
-export const Roles = Reflector.createDecorator<Role[]>()
+export const Roles = Reflector.createDecorator<Permission[]>()

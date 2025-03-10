@@ -8,10 +8,11 @@ type DomainEventCallback = (event: any) => void
 // biome-ignore lint/suspicious/noExplicitAny: Generic AggregateRoot
 type GenericAggregateRoot = AggregateRoot<any>
 
-// biome-ignore lint/complexity/noStaticOnlyClass: DomainEvents is a special static only class
 export class DomainEvents {
   private static handlersMap: Record<string, DomainEventCallback[]> = {}
   private static markedAggregates: GenericAggregateRoot[] = []
+
+  public static shouldRun = true
 
   public static markAggregateForDispatch(aggregate: GenericAggregateRoot) {
     const aggregateFound = !!DomainEvents.findMarkedAggregateByID(aggregate.id)
@@ -80,6 +81,10 @@ export class DomainEvents {
     const eventClassName: string = event.constructor.name
 
     const isEventRegistered = eventClassName in DomainEvents.handlersMap
+
+    if (!DomainEvents.shouldRun) {
+      return
+    }
 
     if (isEventRegistered) {
       const handlers = DomainEvents.handlersMap[eventClassName]

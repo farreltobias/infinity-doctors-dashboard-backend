@@ -3,14 +3,17 @@ import {
   Owner,
   type OwnerProps,
 } from '@/domain/system/enterprise/entities/owner'
+import { PrismaOwnerMapper } from '@/infra/database/prisma/mappers/prisma-owner-mapper'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { faker } from '@faker-js/faker'
+import { Injectable } from '@nestjs/common'
 
 export function makeOwner(
   override: Partial<OwnerProps> = {},
   id?: UniqueEntityID,
 ) {
-  const firstName = faker.person.firstName()
-  const lastName = faker.person.lastName()
+  const firstName = override.firstName || faker.person.firstName()
+  const lastName = override.lastName || faker.person.lastName()
 
   return Owner.create(
     {
@@ -24,17 +27,17 @@ export function makeOwner(
   )
 }
 
-// @Injectable()
-// export class OwnerFactory {
-//   constructor(private prisma: PrismaService) {}
-//
-//   async makePrismaOwner(data: Partial<OwnerProps> = {}): Promise<Owner> {
-//     const owner = makeOwner(data)
-//
-//     await this.prisma.user.create({
-//       data: PrismaOwnerMapper.toPrisma(owner),
-//     })
-//
-//     return owner
-//   }
-// }
+@Injectable()
+export class OwnerFactory {
+  constructor(private prisma: PrismaService) {}
+
+  async makePrismaOwner(data: Partial<OwnerProps> = {}): Promise<Owner> {
+    const owner = makeOwner(data)
+
+    await this.prisma.user.create({
+      data: PrismaOwnerMapper.toPrisma(owner),
+    })
+
+    return owner
+  }
+}

@@ -23,6 +23,12 @@
       "recommended": true,
       "correctness": {
         "noUnusedImports": "error"
+      },
+      "complexity": {
+        "noStaticOnlyClass": "off"
+      },
+      "style": {
+        "useImportType": "off"
       }
     }
   },
@@ -30,6 +36,9 @@
     "formatter": {
       "quoteStyle": "single",
       "semicolons": "asNeeded"
+    },
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
     }
   }
 }

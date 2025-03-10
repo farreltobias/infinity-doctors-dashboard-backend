@@ -2,16 +2,19 @@ version: '3.9'
 
 services:
   mongo:
-    platform: linux/amd64
-    hostname: mongodb
-    image: bitnami/mongodb:5.0
+    image: mongo:7.0
+    command: ["--replSet", "rs0", "--bind_ip_all", "--port", "27017"]
     ports:
-      - "27017:27017"
+      - 27017:27017
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test: echo "try { rs.status() } catch (err) { rs.initiate({_id:'rs0',members:[{_id:0,host:'host.docker.internal:27017'}]}) }" | mongosh --port 27017 --quiet
+      interval: 5s
+      timeout: 30s
+      start_period: 0s
+      start_interval: 1s
+      retries: 30
     volumes:
       - ./data/mongodb:/data/db
-    environment:
-      MONGODB_DATABASE: admin
-      MONGODB_ROOT_PASSWORD: R00tS3cur3P@ssword!23
-      MONGODB_USERNAME: user
-      MONGODB_PASSWORD: password
-      EXPERIMENTAL_DOCKER_DESKTOP_FORCE_QEMU: 1
+      - ./data/configdb:/data/configdb

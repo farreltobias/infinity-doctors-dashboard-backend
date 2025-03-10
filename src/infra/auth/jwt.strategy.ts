@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common'
 import { PassportStrategy } from '@nestjs/passport'
 import { ExtractJwt, Strategy } from 'passport-jwt'
 import { z } from 'zod'
-// biome-ignore lint/style/useImportType: Nest dependencies
 import { EnvService } from '../env/env.service'
 
 const tokenPayloadSchema = z.object({

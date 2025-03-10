@@ -3,6 +3,7 @@ import {
   Owner,
   type OwnerProps,
 } from '@/domain/system/enterprise/entities/owner'
+import { Systems } from '@/domain/system/enterprise/entities/value-object/systems'
 import { PrismaOwnerMapper } from '@/infra/database/prisma/mappers/prisma-owner-mapper'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { faker } from '@faker-js/faker'
@@ -21,6 +22,7 @@ export function makeOwner(
       lastName,
       email: faker.internet.email({ firstName, lastName }),
       password: faker.internet.password(),
+      systems: Systems.create(['admin', 'patients']),
       ...override,
     },
     id,

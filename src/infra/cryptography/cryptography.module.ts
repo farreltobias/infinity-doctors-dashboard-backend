@@ -1,3 +1,4 @@
+import { EnvModule } from '@/infra/env/env.module'
 import { Module } from '@nestjs/common'
 
 import { Encrypter } from '@/domain/system/application/cryptography/encrypter'
@@ -8,6 +9,7 @@ import { BcryptHasher } from './bcrypt-hasher'
 import { JwtEncrypter } from './jwt-encrypter'
 
 @Module({
+  imports: [EnvModule],
   providers: [
     { provide: Encrypter, useClass: JwtEncrypter },
     { provide: HashComparer, useClass: BcryptHasher },

@@ -1,3 +1,3 @@
-export const matchRoles = (roles: string[], userRole: string): boolean => {
-  return roles.some((role) => userRole === role)
+export const matchRoles = (roles: string[], userRoles: string[]): boolean => {
+  return roles.some((role) => userRoles.includes(role))
 }

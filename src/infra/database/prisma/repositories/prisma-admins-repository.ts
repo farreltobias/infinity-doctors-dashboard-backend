@@ -10,7 +10,7 @@ export class PrismaAdminsRepository implements AdminsRepository {
 
   async findByEmail(email: string): Promise<Admin | null> {
     const admin = await this.prisma.user.findUnique({
-      where: { email, role: 'ADMIN' },
+      where: { email, permissions: { has: 'admin' } },
     })
 
     if (!admin) return null

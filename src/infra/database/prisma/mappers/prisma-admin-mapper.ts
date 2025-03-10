@@ -4,12 +4,17 @@ import type { Prisma, User as PrismaUser } from '@prisma/client'
 
 export class PrismaAdminMapper {
   static toDomain(raw: PrismaUser): Admin {
+    if (!raw.partner) {
+      throw new Error('Admin has no partner')
+    }
+
     return Admin.create(
       {
         email: raw.email,
         password: raw.password,
         firstName: raw.firstName,
         lastName: raw.lastName,
+        partner: raw.partner,
       },
       new UniqueEntityID(raw.id),
     )
@@ -22,7 +27,9 @@ export class PrismaAdminMapper {
       password: admin.password,
       firstName: admin.firstName,
       lastName: admin.lastName,
-      role: 'ADMIN',
+      systems: ['admin'],
+      permissions: ['admin'],
+      partner: admin.partner,
     }
   }
 }

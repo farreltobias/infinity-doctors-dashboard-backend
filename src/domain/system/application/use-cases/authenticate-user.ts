@@ -1,4 +1,5 @@
 import { type Either, left, right } from '@/core/either'
+import type { UniqueEntityID } from '@/core/entities/value-object/unique-entity-id'
 import type { Nullable } from '@/core/types/nullable'
 import { Encrypter } from '@/domain/system/application/cryptography/encrypter'
 import { HashComparer } from '@/domain/system/application/cryptography/hash-comparer'
@@ -7,6 +8,7 @@ import { OwnersRepository } from '@/domain/system/application/repositories/owner
 import { WrongCredentialsError } from '@/domain/system/application/use-cases/errors/wrong-credentials-error'
 import type { Admin } from '@/domain/system/enterprise/entities/admin'
 import type { Owner } from '@/domain/system/enterprise/entities/owner'
+import type { Systems } from '@/domain/system/enterprise/entities/value-object/systems'
 import { Injectable } from '@nestjs/common'
 
 interface AuthenticateUserRequestUseCase {
@@ -57,7 +59,8 @@ export class AuthenticateUserUseCase {
 
     const accessToken = await this.encrypter.encrypt({
       sub: user.id.toString(),
-      role: user.role,
+      roles: user.roles,
+      systems: user.systems,
     })
 
     return right({
@@ -66,14 +69,34 @@ export class AuthenticateUserUseCase {
   }
 
   private getValidUser({ owner, admin }: GetValidUserProps) {
-    const ownerUser = owner
-      ? { role: 'OWNER', id: owner.id, password: owner.password }
-      : null
+    const roles: string[] = []
+    const systems: string[] = []
+    const user = {} as {
+      id: UniqueEntityID
+      password: string
+      systems: Systems
+    }
 
-    const adminUser = admin
-      ? { role: 'ADMIN', id: admin.id, password: admin.password }
-      : null
+    if (admin) {
+      roles.push('admin')
+      systems.push('admin')
+      user.id = admin.id
+      user.password = admin.password
+    }
 
-    return ownerUser || adminUser
+    if (owner) {
+      roles.push('owner')
+      systems.push(...owner.systems.toValue())
+      user.id = owner.id
+      user.password = owner.password
+    }
+
+    if (!Object.values(user).length) return null
+
+    return {
+      ...user,
+      roles,
+      systems,
+    }
   }
 }

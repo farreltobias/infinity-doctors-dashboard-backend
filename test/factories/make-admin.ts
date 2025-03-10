@@ -21,6 +21,7 @@ export function makeAdmin(
       lastName,
       email: faker.internet.email({ firstName, lastName }),
       password: faker.internet.password(),
+      partner: faker.company.name(),
       ...override,
     },
     id,

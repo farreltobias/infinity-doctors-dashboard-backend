@@ -6,6 +6,7 @@ export interface AdminProps {
   lastName: string
   email: string
   password: string
+  partner: string
 }
 
 export class Admin extends Entity<AdminProps> {
@@ -27,6 +28,10 @@ export class Admin extends Entity<AdminProps> {
 
   get password() {
     return this.props.password
+  }
+
+  get partner() {
+    return this.props.partner
   }
 
   static create(props: AdminProps, id?: UniqueEntityID) {

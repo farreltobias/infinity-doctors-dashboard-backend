@@ -1,5 +1,5 @@
-import type { AdminsRepository } from '@/domain/system/application/repositories/Admins-repository'
-import type { Admin } from '@/domain/system/enterprise/entities/Admin'
+import type { AdminsRepository } from '@/domain/system/application/repositories/admins-repository'
+import type { Admin } from '@/domain/system/enterprise/entities/admin'
 import { Injectable } from '@nestjs/common'
 import { PrismaAdminMapper } from '../mappers/prisma-admin-mapper'
 import { PrismaService } from '../prisma.service'

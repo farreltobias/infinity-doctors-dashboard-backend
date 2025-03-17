@@ -1,5 +1,5 @@
-import type { OwnersRepository } from '@/domain/system/application/repositories/Owners-repository'
-import type { Owner } from '@/domain/system/enterprise/entities/Owner'
+import type { OwnersRepository } from '@/domain/system/application/repositories/owners-repository'
+import type { Owner } from '@/domain/system/enterprise/entities/owner'
 import { Injectable } from '@nestjs/common'
 import { PrismaOwnerMapper } from '../mappers/prisma-owner-mapper'
 import { PrismaService } from '../prisma.service'

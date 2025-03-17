@@ -1,6 +1,18 @@
 version: '3.9'
 
 services:
+  app:
+    build: .
+    container_name: nestjs-app
+    ports:
+      - '3333:3333'
+    env_file: .env.development
+    depends_on:
+      image:
+        condition: service_healthy
+    volumes:
+      - ./src:/app/src
+
   mongo:
     image: mongo:7.0
     command: ["--replSet", "rs0", "--bind_ip_all", "--port", "27017"]

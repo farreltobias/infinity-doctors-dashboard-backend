@@ -1,5 +1,7 @@
+import { WrongCredentialsError } from '@/domain/system/application/use-cases/errors/wrong-credentials-error'
 import { FakeEncrypter } from 'test/cryptography/fake-encrypter'
 import { FakeHasher } from 'test/cryptography/fake-hasher'
+import { makeAdmin } from 'test/factories/make-admin'
 import { makeOwner } from 'test/factories/make-owner'
 import { InMemoryAdminsRepository } from 'test/repositories/in-memory-admins-repository'
 import { InMemoryOwnersRepository } from 'test/repositories/in-memory-owners-repository'
@@ -44,5 +46,34 @@ describe('Authenticate User', () => {
     expect(result.value).toEqual({
       accessToken: expect.any(String),
     })
+  })
+
+  it('should be able to authenticate a admin', async () => {
+    const admin = makeAdmin({
+      email: 'test-user@example.com',
+      password: await fakeHasher.hash('123456'),
+    })
+
+    inMemoryAdminsRepository.items.push(admin)
+
+    const result = await sut.execute({
+      email: 'test-user@example.com',
+      password: '123456',
+    })
+
+    expect(result.isRight()).toBe(true)
+    expect(result.value).toEqual({
+      accessToken: expect.any(String),
+    })
+  })
+
+  it('should not be able to authenticate a user that does not exist', async () => {
+    const result = await sut.execute({
+      email: 'test-user@example.com',
+      password: '123456',
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(WrongCredentialsError)
   })
 })

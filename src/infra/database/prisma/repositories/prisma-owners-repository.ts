@@ -10,7 +10,17 @@ export class PrismaOwnersRepository implements OwnersRepository {
 
   async findByEmail(email: string): Promise<Owner | null> {
     const owner = await this.prisma.user.findUnique({
-      where: { email, permissions: { has: 'owner' } },
+      where: { email: email.toLowerCase(), permissions: { has: 'owner' } },
+    })
+
+    if (!owner) return null
+
+    return PrismaOwnerMapper.toDomain(owner)
+  }
+
+  async findById(id: string): Promise<Owner | null> {
+    const owner = await this.prisma.user.findUnique({
+      where: { id, permissions: { has: 'owner' } },
     })
 
     if (!owner) return null

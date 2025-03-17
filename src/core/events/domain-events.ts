@@ -1,5 +1,4 @@
 import type { UniqueEntityID } from '@/core/entities/value-object/unique-entity-id'
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { AggregateRoot } from '../entities/aggregate-root'
 import type { DomainEvent } from './domain-event'
 

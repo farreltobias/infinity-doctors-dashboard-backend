@@ -19,7 +19,7 @@ export function makeAdmin(
     {
       firstName,
       lastName,
-      email: faker.internet.email({ firstName, lastName }),
+      email: faker.internet.email({ firstName, lastName }).toLowerCase(),
       password: faker.internet.password(),
       partner: faker.company.name(),
       ...override,

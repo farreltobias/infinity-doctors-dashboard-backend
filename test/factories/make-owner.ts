@@ -20,7 +20,7 @@ export function makeOwner(
     {
       firstName,
       lastName,
-      email: faker.internet.email({ firstName, lastName }),
+      email: faker.internet.email({ firstName, lastName }).toLowerCase(),
       password: faker.internet.password(),
       systems: Systems.create(['admin', 'patients']),
       ...override,

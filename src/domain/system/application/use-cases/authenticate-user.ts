@@ -77,18 +77,18 @@ export class AuthenticateUserUseCase {
       systems: Systems
     }
 
-    if (admin) {
-      roles.push('admin')
-      systems.push('admin')
-      user.id = admin.id
-      user.password = admin.password
-    }
-
     if (owner) {
       roles.push('owner')
       systems.push(...owner.systems.toValue())
       user.id = owner.id
       user.password = owner.password
+    }
+
+    if (admin) {
+      roles.push('admin')
+      systems.push('admin')
+      user.id = admin.id
+      user.password = admin.password
     }
 
     if (!Object.values(user).length) return null

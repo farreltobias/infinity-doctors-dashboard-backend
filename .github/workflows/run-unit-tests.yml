@@ -12,9 +12,11 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
 
-      - run: npm ci
+      - run: npm i -g pnpm
 
-      - run: npm test
+      - run: pnpm i --frozen-lockfile
+
+      - run: pnpm test

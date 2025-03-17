@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
 
       - name: Build and push Docker image
@@ -33,8 +33,8 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.MY_EC2_SSH_KEY }}
           script: |
-            docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-            docker pull ${{ secrets.DOCKER_REPO_URL }}/dashboard-backend:latest
-            docker stop dashboard-backend || true
-            docker rm dashboard-backend || true
-            docker run -d -p 3333:3333 --name dashboard-backend ${{ secrets.DOCKER_REPO_URL }}/dashboard-backend:latest
+            sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+            sudo docker pull ${{ secrets.DOCKER_REPO_URL }}/dashboard-backend:latest
+            sudo docker stop dashboard-backend || true
+            sudo docker rm dashboard-backend || true
+            sudo docker run -d -p 3333:3333 --name dashboard-backend ${{ secrets.DOCKER_REPO_URL }}/dashboard-backend:latest

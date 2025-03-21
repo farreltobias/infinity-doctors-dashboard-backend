@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'terraform/**'
+      - '.github/workflows/infrastructure.yml'
 
 permissions:
   contents: write

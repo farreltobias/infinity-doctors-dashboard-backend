@@ -17,8 +17,8 @@ resource "aws_ecs_task_definition" "dashboard_task" {
       essential = true
       portMappings = [
         {
-          containerPort = 3000
-          hostPort      = 3000
+          containerPort = 3333
+          hostPort      = 3333
         }
       ]
     }
@@ -41,6 +41,6 @@ resource "aws_ecs_service" "dashboard_service" {
   load_balancer {
     target_group_arn = var.lb_target_group_arn
     container_name   = "dashboard-app"
-    container_port   = 3000
+    container_port   = 3333
   }
 }

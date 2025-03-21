@@ -10,6 +10,6 @@ async function bootstrap() {
   const envService = app.get(EnvService)
   const port = envService.get('PORT')
 
-  await app.listen(port)
+  await app.listen(port, '0.0.0.0')
 }
 bootstrap()

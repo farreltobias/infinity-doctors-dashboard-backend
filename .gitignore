@@ -61,3 +61,11 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 # JWT keys
 *.pem
+
+# Terraform files
+**/.terraform
+.terraform.lock.hcl
+terraform.tfstate
+
+# Github secrects
+.github/workflows/.secrets
